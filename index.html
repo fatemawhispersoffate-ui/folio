@@ -1,1 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Folio – Resume Builder</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@400;600;800&family=Newsreader:wght@400;600&display=swap">
+<style>
+:root{--bg:#F5F4FB;--surf:#fff;--ink:#17153B;--mute:#5d5b7e;--line:#dedcf0;--acc:#5B3DF5;--accfg:#fff;--pop:#FFE45C;--ok:#1aa870;
+box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#0F0E26;--surf:#1a1840;--ink:#eeedfb;--mute:#a4a2c9;--line:#2f2c5e;--acc:#8e78ff;--accfg:#0F0E26}}
+:root[data-theme="dark"]{--bg:#0F0E26;--surf:#1a1840;--ink:#eeedfb;--mute:#a4a2c9;--line:#2f2c5e;--acc:#8e78ff;--accfg:#0F0E26}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 16px/1.55 'Bricolage Grotesque',system-ui,sans-serif}
+h1,h2,h3{line-height:1.08;margin:0;letter-spacing:-.02em}
+button,input,textarea,select{font:inherit;color:inherit}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:18px 0}
+.logo{font-weight:800;font-size:22px;display:flex;gap:8px;align-items:center}
+.logo i{width:26px;height:26px;border-radius:7px 7px 7px 2px;background:var(--acc);display:inline-block;position:relative}
+.logo i:after{content:"";position:absolute;left:6px;top:7px;width:14px;height:3px;background:var(--pop);box-shadow:0 6px 0 var(--pop)}
+.btn{border:0;border-radius:999px;padding:11px 22px;font-weight:600;cursor:pointer;background:var(--acc);color:var(--accfg)}
+.btn.ghost{background:transparent;border:1.5px solid var(--line);color:var(--ink)}
+.btn.pop{background:var(--pop);color:#17153B}
+.btn:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:3px solid var(--pop);outline-offset:2px}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;gap:40px;align-items:center;padding:48px 0 72px}
+.hero h1{font-size:clamp(40px,6.4vw,76px);font-weight:800}
+.hero p{font-size:19px;color:var(--mute);max-width:46ch;margin:20px 0 28px}
+.stack{position:relative;height:440px}
+.paper{position:absolute;width:300px;height:400px;background:#fff;color:#222;border-radius:6px;padding:22px;box-shadow:0 30px 60px -20px rgba(23,21,59,.45);font-family:Newsreader,serif;font-size:11px}
+.paper.a{left:6%;top:30px;transform:rotate(-7deg);background:#e9e5ff}
+.paper.b{right:0;top:0;transform:rotate(4deg)}
+.paper h4{margin:0;font-size:22px;font-weight:600}
+.bar{height:7px;border-radius:4px;background:#e4e2ee;margin:8px 0}
+.bar.s{width:60%}.bar.m{width:82%}
+.chip{display:inline-block;background:var(--pop);color:#17153B;border-radius:99px;padding:2px 9px;font:600 10px 'Bricolage Grotesque';margin:2px 2px 0 0}
+.score{position:absolute;left:0;bottom:10px;background:var(--surf);border:1px solid var(--line);border-radius:16px;padding:12px 16px;box-shadow:0 14px 30px -12px rgba(0,0,0,.35)}
+.score b{font-size:28px;color:var(--ok)}
+section{padding:64px 0}
+section>.wrap>h2{font-size:clamp(28px,4vw,44px);max-width:20ch;margin-bottom:12px}
+.sub{color:var(--mute);max-width:56ch;margin:0 0 34px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.card{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:24px}
+.card h3{font-size:20px;margin-bottom:8px}
+.card p{margin:0;color:var(--mute)}
+.ico{width:42px;height:42px;border-radius:12px;background:var(--acc);color:var(--accfg);display:grid;place-items:center;font-size:20px;margin-bottom:16px}
+.tpl{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+.tplc{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:16px;text-align:center}
+.mini{height:170px;border-radius:8px;background:#fff;margin-bottom:12px;padding:14px;display:flex;gap:8px;text-align:left}
+.mini .side{width:32%;background:var(--c);border-radius:4px}
+.mini .main{flex:1}
+.mini.top{flex-direction:column}.mini.top .hd{height:34px;background:var(--c);border-radius:4px}
+.price .card.hl{background:var(--acc);color:var(--accfg);border:0}
+.price .card.hl p,.price .card.hl li{color:inherit;opacity:.9}
+.price .big{font-size:44px;font-weight:800;margin:8px 0}
+.price ul{padding-left:18px;margin:12px 0 0}
+.quote{font-family:Newsreader,serif;font-size:19px}
+footer{border-top:1px solid var(--line);padding:30px 0;color:var(--mute);font-size:14px}
+dialog{border:0;border-radius:22px;padding:28px;width:min(420px,92vw);background:var(--surf);color:var(--ink);box-shadow:0 40px 80px -20px rgba(0,0,0,.5)}
+dialog::backdrop{background:rgba(15,14,38,.6)}
+label{display:block;font-weight:600;font-size:14px;margin:12px 0 4px}
+input,textarea,select{width:100%;padding:10px 12px;border-radius:10px;border:1.5px solid var(--line);background:var(--bg)}
+textarea{min-height:80px;resize:vertical}
+.demo{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.demo button{text-align:left;border:1.5px dashed var(--line);background:var(--bg);border-radius:12px;padding:10px;cursor:pointer}
+.demo small{display:block;color:var(--mute)}
+.err{color:#e5484d;font-size:14px;min-height:20px;margin-top:8px}
+/* app */
+#app{display:none}
+.top{display:flex;align-items:center;justify-content:space-between;padding:14px 20px;border-bottom:1px solid var(--line);background:var(--surf);position:sticky;top:env(safe-area-inset-top,0px);z-index:5}
+.who{display:flex;gap:12px;align-items:center;font-size:14px;color:var(--mute)}
+.badge{background:var(--pop);color:#17153B;border-radius:99px;padding:2px 10px;font-weight:600;font-size:12px}
+.builder{display:grid;grid-template-columns:minmax(300px,420px) 1fr;gap:24px;padding:24px 20px;max-width:1240px;margin:0 auto}
+.panel{background:var(--surf);border:1px solid var(--line);border-radius:18px;padding:20px;align-self:start}
+.panel h3{font-size:18px;margin:18px 0 4px}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.tools{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px;align-items:center}
+.sw{width:28px;height:28px;border-radius:50%;border:3px solid var(--surf);outline:1.5px solid var(--line);cursor:pointer;padding:0}
+.sw.on{outline:3px solid var(--ink)}
+.sheet{background:#fff;color:#1d1d26;font-family:Newsreader,serif;max-width:720px;min-height:900px;margin:0 auto;box-shadow:0 30px 60px -25px rgba(23,21,59,.5);font-size:14px;line-height:1.45;display:grid}
+.sheet.sidebar{grid-template-columns:34% 1fr}
+.sheet .l{background:var(--c);color:#fff;padding:30px 22px}
+.sheet .r,.sheet.top1 .in{padding:30px 28px}
+.sheet h1{font-size:34px;font-weight:600;letter-spacing:-.01em}
+.sheet h2{font:800 12px 'Bricolage Grotesque';letter-spacing:.08em;text-transform:uppercase;color:var(--c);border-bottom:2px solid var(--c);padding-bottom:3px;margin:20px 0 8px}
+.sheet .l h2{color:#fff;border-color:rgba(255,255,255,.5)}
+.sheet .hdr{background:var(--c);color:#fff;padding:30px 28px}
+.sheet .job{margin-bottom:10px}.sheet .job b{font-weight:600}
+.sheet .tag{display:inline-block;border:1px solid var(--c);border-radius:99px;padding:0 9px;margin:2px 3px 2px 0;font-size:12px}
+.sheet .l .tag{border-color:#fff}
+.mut{opacity:.75}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th,td{text-align:left;padding:10px 8px;border-bottom:1px solid var(--line)}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:20px}
+.stat b{display:block;font-size:30px;font-weight:800}
+.chart{display:flex;align-items:flex-end;gap:10px;height:150px;padding-top:10px}
+.chart div{flex:1;background:var(--acc);border-radius:8px 8px 0 0;position:relative}
+.chart span{position:absolute;bottom:-20px;left:0;right:0;text-align:center;font-size:11px;color:var(--mute)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:10px 18px;border-radius:99px;font-weight:600;display:none;z-index:50}
+@media(max-width:860px){.hero,.builder{grid-template-columns:1fr}.grid3,.tpl{grid-template-columns:1fr}.stack{height:420px}.stats{grid-template-columns:1fr 1fr}.sheet.sidebar{grid-template-columns:1fr}}
+@media print{body *{visibility:hidden}.sheet,.sheet *{visibility:visible}.sheet{position:absolute;left:0;top:0;box-shadow:none;max-width:none;width:100%}}
+@media(prefers-reduced-motion:no-preference){.paper.b{animation:fl 6s ease-in-out infinite}@keyframes fl{50%{transform:rotate(4deg) translateY(-10px)}}}
+</style>
+</head>
+<body>
+<div id="site">
+<div class="wrap">
+<nav><div class="logo"><i></i>Folio</div>
+<div><button class="btn ghost" onclick="openLogin()">Log in</button> <button class="btn" onclick="openLogin()">Build my resume</button></div></nav>
+<header class="hero">
+<div>
+<h1>A resume that gets you the interview.</h1>
+<p>Pick a template, fill in your story, and watch your resume take shape live. Export a clean PDF in minutes — no design skills needed.</p>
+<button class="btn pop" onclick="openLogin()">Start for free</button> <button class="btn ghost" onclick="document.getElementById('tpls').scrollIntoView({behavior:'smooth'})">See templates</button>
+</div>
+<div class="stack" aria-hidden="true">
+<div class="paper a"><h4>Maya Chen</h4><div class="bar m"></div><div class="bar s"></div><div class="bar m"></div></div>
+<div class="paper b"><h4>Daniel Okafor</h4><div class="mut">Product Designer · Lagos</div><div class="bar m" style="margin-top:14px"></div><div class="bar"></div><div class="bar s"></div><br><span class="chip">Figma</span><span class="chip">Research</span><span class="chip">Prototyping</span><div class="bar m" style="margin-top:18px"></div><div class="bar"></div><div class="bar s"></div><div class="bar m"></div></div>
+<div class="score"><b>92</b><div class="mut" style="font-size:12px">ATS readiness score</div></div>
+</div>
+</header>
+</div>
 
+<section><div class="wrap">
+<h2>Everything you need, nothing you don’t</h2>
+<p class="sub">Built around what recruiters actually scan for in the first six seconds.</p>
+<div class="grid3">
+<div class="card"><div class="ico">⚡</div><h3>Live preview</h3><p>Type on the left, see your resume update on the right. No refreshing, no guessing.</p></div>
+<div class="card"><div class="ico">✓</div><h3>ATS-friendly layouts</h3><p>Clean structure that hiring software can read, so your details never get lost.</p></div>
+<div class="card"><div class="ico">⇩</div><h3>One-click PDF</h3><p>Export a print-ready file sized for A4 and US Letter.</p></div>
+</div></div></section>
+
+<section id="tpls"><div class="wrap">
+<h2>Three templates, each tuned for a purpose</h2>
+<p class="sub">Switch between them any time. Your content stays put.</p>
+<div class="tpl">
+<div class="tplc"><div class="mini" style="--c:#5B3DF5"><div class="side"></div><div class="main"><div class="bar m"></div><div class="bar"></div><div class="bar s"></div></div></div><h3>Sidebar</h3><p class="mut">Skills-forward, great for tech roles</p></div>
+<div class="tplc"><div class="mini top" style="--c:#0f766e"><div class="hd"></div><div class="bar m"></div><div class="bar"></div><div class="bar s"></div></div><h3>Banner</h3><p class="mut">Bold header, easy to scan</p></div>
+<div class="tplc"><div class="mini" style="--c:#17153B"><div class="main"><div class="bar m"></div><div class="bar"></div><div class="bar s"></div><div class="bar m"></div></div></div><h3>Classic</h3><p class="mut">Traditional, safe for any industry</p></div>
+</div></div></section>
+
+<section class="price"><div class="wrap">
+<h2>Simple pricing</h2><p class="sub">Start free. Upgrade when you need more.</p>
+<div class="grid3">
+<div class="card"><h3>Free</h3><div class="big">$0</div><p>One resume, all templates.</p><ul><li>Live preview</li><li>Print to PDF</li></ul></div>
+<div class="card hl"><h3>Pro</h3><div class="big">$7<small>/mo</small></div><p>For active job seekers.</p><ul><li>Unlimited resumes</li><li>Custom accent colors</li><li>Cover letter builder</li></ul></div>
+<div class="card"><h3>Teams</h3><div class="big">$29<small>/mo</small></div><p>Career centers and bootcamps.</p><ul><li>Up to 25 seats</li><li>Admin dashboard</li></ul></div>
+</div></div></section>
+
+<section><div class="wrap">
+<h2>People who got the call</h2><p class="sub"></p>
+<div class="grid3">
+<div class="card quote">“I rebuilt my resume in twenty minutes and had three interviews the next week.”<p style="margin-top:12px;font:14px 'Bricolage Grotesque'">Priya S., Data Analyst</p></div>
+<div class="card quote">“The sidebar template made my skills impossible to miss.”<p style="margin-top:12px;font:14px 'Bricolage Grotesque'">Tomás R., Frontend Developer</p></div>
+<div class="card quote">“We use Folio for every cohort. Graduates ship polished resumes on day one.”<p style="margin-top:12px;font:14px 'Bricolage Grotesque'">Hannah L., Bootcamp Director</p></div>
+</div></div></section>
+
+<footer><div class="wrap">© 2026 Folio. Your data stays in your browser in this demo.</div></footer>
+</div>
+
+<dialog id="dlg">
+<h2 style="font-size:26px">Log in to Folio</h2>
+<p class="mut" style="margin:6px 0 0">Tap a demo account to fill the form.</p>
+<div class="demo">
+<button type="button" onclick="fill('user@folio.demo','user123')"><b>Customer</b><small>user@folio.demo</small></button>
+<button type="button" onclick="fill('admin@folio.demo','admin123')"><b>Admin</b><small>admin@folio.demo</small></button>
+</div>
+<label for="em">Email</label><input id="em" type="email" autocomplete="username">
+<label for="pw">Password</label><input id="pw" type="password" autocomplete="current-password">
+<div class="err" id="err" role="alert"></div>
+<div style="display:flex;gap:10px;margin-top:8px"><button class="btn" onclick="login()">Log in</button><button class="btn ghost" onclick="dlg.close()">Cancel</button></div>
+</dialog>
+
+<div id="app">
+<div class="top"><div class="logo"><i></i>Folio</div><div class="who"><span id="uname"></span><span class="badge" id="role"></span><button class="btn ghost" onclick="logout()">Log out</button></div></div>
+
+<div id="cust" class="builder" style="display:none">
+<div class="panel">
+<div class="tools"><select id="tpl" onchange="S.tpl=this.value;render()" aria-label="Template" style="width:auto"><option value="sidebar">Sidebar</option><option value="banner">Banner</option><option value="classic">Classic</option></select>
+<span id="sws"></span></div>
+<div class="row"><div><label>Full name</label><input data-k="name"></div><div><label>Job title</label><input data-k="title"></div></div>
+<div class="row"><div><label>Email</label><input data-k="email"></div><div><label>Phone</label><input data-k="phone"></div></div>
+<label>City</label><input data-k="city">
+<label>Summary</label><textarea data-k="summary"></textarea>
+<h3>Experience</h3>
+<div class="row"><div><label>Role</label><input data-k="role1"></div><div><label>Company</label><input data-k="co1"></div></div>
+<label>Dates</label><input data-k="dates1">
+<label>What you did</label><textarea data-k="desc1"></textarea>
+<h3>Education</h3>
+<label>Degree and school</label><input data-k="edu">
+<h3>Skills</h3>
+<label>Comma separated</label><input data-k="skills">
+<div style="display:flex;gap:10px;margin-top:18px"><button class="btn" onclick="window.print()">Print / Save PDF</button><button class="btn ghost" onclick="toast('Saved')">Save</button></div>
+</div>
+<div><div class="sheet" id="sheet"></div></div>
+</div>
+
+<div id="adm" style="display:none;max-width:1100px;margin:0 auto;padding:24px 20px">
+<div class="stats">
+<div class="card stat"><span class="mut">Total users</span><b>1,284</b></div>
+<div class="card stat"><span class="mut">Resumes built</span><b>3,907</b></div>
+<div class="card stat"><span class="mut">Pro subscribers</span><b>212</b></div>
+<div class="card stat"><span class="mut">Monthly revenue</span><b>$1,484</b></div>
+</div>
+<div class="card" style="margin-bottom:20px"><h3>Resumes created this week</h3>
+<div class="chart" style="margin-bottom:26px"><div style="height:45%"><span>Mon</span></div><div style="height:62%"><span>Tue</span></div><div style="height:58%"><span>Wed</span></div><div style="height:80%"><span>Thu</span></div><div style="height:100%"><span>Fri</span></div><div style="height:48%"><span>Sat</span></div><div style="height:35%"><span>Sun</span></div></div></div>
+<div class="card" style="overflow-x:auto"><h3>Recent users</h3>
+<table><thead><tr><th>Name</th><th>Email</th><th>Plan</th><th>Resumes</th><th></th></tr></thead><tbody id="utb"></tbody></table></div>
+</div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $=s=>document.querySelector(s),dlg=$('#dlg');
+const ACC={user:{email:'user@folio.demo',pw:'user123',role:'customer',name:'Jordan Lee'},admin:{email:'admin@folio.demo',pw:'admin123',role:'admin',name:'Alex Admin'}};
+const COLORS=['#5B3DF5','#0f766e','#c2410c','#17153B'];
+let S={tpl:'sidebar',color:COLORS[0],d:{name:'Jordan Lee',title:'Marketing Manager',email:'jordan@email.com',phone:'+1 555 014 2290',city:'Austin, TX',summary:'Growth-minded marketer with six years of experience turning campaigns into measurable revenue. I lead small teams and love clear, simple stories.',role1:'Marketing Manager',co1:'Brightline Co.',dates1:'2021 – Present',desc1:'Grew qualified leads by 64% in 12 months. Led a team of four across content, email and paid. Cut cost per lead by 28%.',edu:'BA Communications, University of Texas',skills:'SEO, Email marketing, Analytics, Team leadership, Copywriting'}};
+const USERS=[['Priya Sharma','priya@mail.com','Pro',4],['Tomás Ruiz','tomas@mail.com','Free',1],['Hannah Lee','hannah@school.edu','Teams',12],['Daniel Okafor','dan@mail.com','Pro',3],['Maya Chen','maya@mail.com','Free',2]];
+const esc=s=>String(s||'').replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+function store(k,v){try{if(v===undefined)return localStorage.getItem(k);v===null?localStorage.removeItem(k):localStorage.setItem(k,v)}catch(e){}}
+function openLogin(){$('#err').textContent='';dlg.showModal()}
+function fill(e,p){$('#em').value=e;$('#pw').value=p}
+function login(){const e=$('#em').value.trim().toLowerCase(),p=$('#pw').value;
+const a=Object.values(ACC).find(x=>x.email===e&&x.pw===p);
+if(!a){$('#err').textContent='Email or password is incorrect. Use a demo account above.';return}
+store('folio_user',a.role);dlg.close();enter(a)}
+function enter(a){$('#site').style.display='none';$('#app').style.display='block';
+$('#uname').textContent=a.name;$('#role').textContent=a.role;
+$('#cust').style.display=a.role==='customer'?'grid':'none';$('#adm').style.display=a.role==='admin'?'block':'none';
+if(a.role==='customer')render();else $('#utb').innerHTML=USERS.map(u=>`<tr><td>${u[0]}</td><td>${u[1]}</td><td>${u[2]}</td><td>${u[3]}</td><td><button class="btn ghost" style="padding:4px 12px" onclick="toast('Reset link sent to ${u[1]}')">Reset</button></td></tr>`).join('');
+scrollTo(0,0)}
+function logout(){store('folio_user',null);$('#app').style.display='none';$('#site').style.display='block';scrollTo(0,0)}
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';clearTimeout(t._h);t._h=setTimeout(()=>t.style.display='none',1800)}
+function render(){const d=S.d,c=S.color,sk=d.skills.split(',').map(x=>x.trim()).filter(Boolean).map(x=>`<span class="tag">${esc(x)}</span>`).join('');
+const contact=`${esc(d.email)}<br>${esc(d.phone)}<br>${esc(d.city)}`;
+const exp=`<h2>Experience</h2><div class="job"><b>${esc(d.role1)}</b>, ${esc(d.co1)}<div class="mut">${esc(d.dates1)}</div><div>${esc(d.desc1)}</div></div>`;
+const edu=`<h2>Education</h2><div>${esc(d.edu)}</div>`;
+const sum=`<h2>Summary</h2><div>${esc(d.summary)}</div>`;
+const sh=$('#sheet');sh.style.setProperty('--c',c);
+if(S.tpl==='sidebar'){sh.className='sheet sidebar';sh.innerHTML=`<div class="l"><h2 style="margin-top:0">Contact</h2><div>${contact}</div><h2>Skills</h2>${sk}</div><div class="r"><h1>${esc(d.name)}</h1><div class="mut">${esc(d.title)}</div>${sum}${exp}${edu}</div>`}
+else if(S.tpl==='banner'){sh.className='sheet top1';sh.style.display='block';sh.innerHTML=`<div class="hdr"><h1>${esc(d.name)}</h1><div>${esc(d.title)} · ${esc(d.email)} · ${esc(d.phone)}</div></div><div class="in">${sum}${exp}${edu}<h2>Skills</h2>${sk}</div>`}
+else{sh.className='sheet top1';sh.style.display='block';sh.innerHTML=`<div class="in"><h1 style="text-align:center">${esc(d.name)}</h1><div class="mut" style="text-align:center">${esc(d.title)} · ${esc(d.email)} · ${esc(d.phone)} · ${esc(d.city)}</div>${sum}${exp}${edu}<h2>Skills</h2>${sk}</div>`}
+if(S.tpl==='sidebar')sh.style.display='grid';
+store('folio_resume',JSON.stringify(S))}
+document.querySelectorAll('[data-k]').forEach(i=>{i.value=S.d[i.dataset.k]||'';i.addEventListener('input',()=>{S.d[i.dataset.k]=i.value;render()})});
+$('#sws').innerHTML=COLORS.map(c=>`<button class="sw" style="background:${c}" aria-label="Accent ${c}" onclick="S.color='${c}';document.querySelectorAll('.sw').forEach(s=>s.classList.toggle('on',s===this));render()"></button>`).join('');
+$('.sw').classList.add('on');
+(function(){try{const r=JSON.parse(store('folio_resume')||'null');if(r&&r.d){S=r;document.querySelectorAll('[data-k]').forEach(i=>i.value=S.d[i.dataset.k]||'');$('#tpl').value=S.tpl}}catch(e){}
+const u=store('folio_user');if(u==='admin')enter(ACC.admin);else if(u==='customer')enter(ACC.user)})();
+</script>
+</body>
+</html>
